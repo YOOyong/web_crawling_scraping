@@ -250,6 +250,7 @@ dmypy.json
 cython_debug/
 
 ### VisualStudioCode ###
+.vscode/
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
@@ -264,5 +265,7 @@ cython_debug/
 # Ignore all local history of files
 .history
 .ionide
+
+.__pycache__
 
 # End of https://www.toptal.com/developers/gitignore/api/pycharm,visualstudiocode,python

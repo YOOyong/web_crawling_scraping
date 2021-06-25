@@ -24,8 +24,8 @@ import time
 # //div[@class="bl_subject"]/a/text()  국민청원
 # //ul[@id="basic1"]/li/dl/dt/a/text() 네이버 지식인 킥보드 <b> 태그 처리 방법은?
 # //div[@class="title"]/p[@class="tit"]/a[@class="best-title"]/text() 팍스넷 종목토론
-def init_file(keyword):
-    output_file_name = 'naver_news' + keyword + time.strftime("%y%m%d_%H%M%S") + '.txt'
+def create_file(keyword):
+    output_file_name = 'naver_news_' + keyword +'_'+time.strftime("%y%m%d_%H%M%S") + '.txt'
     with open(output_file_name, "w", encoding ="utf-8") as f:
         f.write("{}\t{}\t{}\t{}\n".format('페이지', '키워드', '제목', 'url'))
     return output_file_name
@@ -58,26 +58,26 @@ def crawl_news(keyword, page_num, output_file_name):
             news_url = body.xpath('.//a[@class="info"]/@href')[0]
         except:
             news_url = ''
-        news_title_clean = news_title.replace("\n", "").replace("\t", "").replace("\r", "").strip()
+        news_title_clean = news_title.replace("\n", " ").replace("\t", " ").replace("\r", " ").strip()
         news_date_clean = news_date.replace(".", "")
         results.append((news_title_clean, news_date_clean, news_url))
         write_news(page_num, keyword, news_title_clean, news_url, output_file_name)
     return results
 
-if __name__ == '__main__':
-    keywords = ['킥보드', '자전거']
-    result_dict = {'킥보드':[], '자전거': []}
 
-    for key in keywords:
-        output_file_name = init_file(key)
-        for i in range(1, 4):
-            result_dict[key].extend(crawl_news(key, i, output_file_name))
-
-    for k, v in result_dict.items():
-        print(f"\n{k} 키워드 크롤링 결과\n")
-        for article in v:
-            print(article)
+#keywords = ['킥보드', '자전거']
+#result_dict = {'킥보드':[], '자전거': []}
+keywords = list(input("키워드 입력, 띄어쓰기 구분 : ").split())
+end_page = input("어느 페이지 까지? : ")
 
 
-# //div[@class="info_group"]/a[@class="info"]/@href
-# //idv[@class="info_group"]/a[@class="news_info"]
+for key in keywords:
+    output_file_name = create_file(key)
+    for i in range(1, int(end_page)):
+        # result_dict[key].extend(crawl_news(key, i, output_file_name))
+        crawl_news(key, i, output_file_name)
+
+    # for k, v in result_dict.items():
+    #     print(f"\n{k} 키워드 크롤링 결과\n")
+    #     for article in v:
+    #         print(article)
