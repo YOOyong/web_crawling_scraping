@@ -1,9 +1,21 @@
 import time
 import selenium.webdriver as webdriver
+import sys
+
 
 driver = webdriver.Chrome("C://chromedriver/chromedriver.exe")
 url_start = 'https://news.naver.com'
+end_page = 3
+#값을 입력받도록 만들기. 실행 명령시에 입력받는다.
+# if len(sys.argv) == 3:
+#     end_page = int(sys.argv[2]) + 1
+# elif len(sys.argv) == 2:
+#     keywords = list(sys.argv[1].split(','))
+# else:
+#     keywords = ['킥보드', '자전거']
 keywords = ['킥보드', '자전거']
+#sys argv 는 기본적으로 값을 하나 가지고 있음
+#sys argv가 2이상이라는 소리는 값을 받았다는 의미.
 
 def input_keyword(keyword):
     driver.switch_to.window(driver.window_handles[0])
@@ -65,11 +77,13 @@ def main():
         output_file = make_file(keyword)
         driver = input_keyword(keyword)
 
-        for i in range(1, 2):
+        for i in range(1,2 ):
             print(i)
             crawl_news_selenium(driver, keyword, i, output_file)
             time.sleep(6)
 
         driver.close()
+    driver.quit() # close() 와 quit()의 차이
+    return
 
 main()

@@ -19,7 +19,7 @@ def create_article_content_file(filename):
 def crawl_article_urls(filename, page):
     for i in range(1, page+1):
         URL = 'https://pann.nate.com/talk/c20048?page=' + str(page)
-        html_req = requests.get(URL, headers=headers)
+        html_req = requests.get(URL, headers=headers)   
         tree = html.fromstring(html_req.content)
 
         articles = tree.xpath('//table[@class="talk_list"]/tbody/tr')
